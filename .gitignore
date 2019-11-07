@@ -23,3 +23,5 @@ erl_crash.dump
 ex_aws_qldb-*.tar
 
 config/
+
+__pycache__

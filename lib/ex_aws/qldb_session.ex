@@ -84,7 +84,7 @@ defmodule ExAws.QLDBSession do
     request(data)
   end
 
-  @spec start_session(
+  @spec start_transaction(
     session_token :: binary
   ) :: ExAws.Operation.JSON.t
   def start_transaction(session_token) do
@@ -118,9 +118,12 @@ defmodule ExAws.QLDBSession do
   @spec commit_transaction(
     session_token :: binary,
     transaction_id :: binary,
-    commit_digest :: binary
+    statement :: binary,
+    parameters :: list(binary)
   ) :: ExAws.Operation.JSON.t
-  def commit_transaction(session_token, transaction_id, commit_digest) do
+  def commit_transaction(session_token, transaction_id, statement, parameters) do
+    commit_digest= ExAws.IonHash.get_digest(transaction_id, statement, parameters) |> :unicode.characters_to_binary({:utf16, :little})
+
     data = %{
       "SessionToken" => session_token,
       "CommitTransaction" => %{

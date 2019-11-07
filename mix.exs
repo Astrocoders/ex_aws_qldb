@@ -24,6 +24,7 @@ defmodule ExAws.QLDB.MixProject do
       {:ex_aws, git: "https://github.com/georgelima/ex_aws"},
       {:jason, "~> 1.1"},
       {:hackney, "~> 1.9"},
+      {:erlport, "~> 0.9"}
     ]
   end
 end
