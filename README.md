@@ -1,6 +1,6 @@
 # ExAws.QLDB
 
-**TODO: Add description**
+Service module for https://github.com/ex-aws/ex_aws
 
 ## Installation
 
@@ -10,7 +10,10 @@ by adding `ex_aws_qldb` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ex_aws_qldb, "~> 0.1.0"}
+    {:ex_aws, "~> 2.0"},
+    {:ex_aws_lambda, "~> 2.0"},
+    {:poison, "~> 3.0"},
+    {:hackney, "~> 1.9"},
   ]
 end
 ```
