@@ -21,7 +21,7 @@ defmodule ExAws.QLDB.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ex_aws, git: "https://github.com/georgelima/ex_aws"},
+      {:ex_aws, git: "https://github.com/ex-aws/ex_aws"},
       {:jason, "~> 1.1"},
       {:hackney, "~> 1.9"},
       {:erlport, "~> 0.9"}
