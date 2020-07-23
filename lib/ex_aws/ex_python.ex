@@ -11,6 +11,10 @@ defmodule ExAws.ExPython do
 
   def call_python(pid, module, function, arguments \\ []) do
     pid
-    |>:python.call(module, function, arguments)
+    |> :python.call(module, function, arguments)
+  end
+
+  def stop(pid) do
+    pid |> :python.stop()
   end
 end

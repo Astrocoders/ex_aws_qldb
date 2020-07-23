@@ -8,8 +8,13 @@ defmodule ExAws.IonHash do
   end
 
   defp call_python(module, function, args) do
-    default_instance()
-    |> ExAws.ExPython.call_python(module, function, args)
+    pid = default_instance()
+
+    return = ExAws.ExPython.call_python(pid, module, function, args)
+
+    ExAws.ExPython.stop(pid)
+
+    return
   end
 
   def get_digest(tx_id, statement, parameters) do
