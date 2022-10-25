@@ -11,7 +11,7 @@ by adding `ex_aws_qldb` to your list of dependencies in `mix.exs`:
 def deps do
   [
     {:ex_aws, "~> 2.0"},
-    {:ex_aws_lambda, "~> 2.0"},
+    {:ex_aws_qldb, "~> 0.1"},
     {:poison, "~> 3.0"},
     {:hackney, "~> 1.9"},
   ]
