@@ -3,7 +3,7 @@ defmodule ExAws.QLDBSession do
     {:ion_binary, binary} |
     {:ion_text, binary}
   ]
-  
+
   @type start_session_request :: [
     {:ledger_name, binary}
   ]
@@ -30,16 +30,16 @@ defmodule ExAws.QLDBSession do
     {:next_page_token, binary}
   ]
 
-  @type send_command_request :: [
-    {:session_token, binary | nil} |
-    {:start_session, start_session_request | nil} |
-    {:start_transaction, start_transaction_request | nil} |
-    {:end_session, end_session_request | nil} |
-    {:commit_transaction, commit_transaction_request | nil} |
-    {:abort_transaction, abort_transaction_request | nil} |
-    {:execute_statement, execute_statement_request | nil} |
-    {:fetch_page, fetch_page_request | nil}
-  ]
+  @type send_command_request :: %{
+    optional(:session_token) => binary,
+    optional(:start_session) => start_session_request,
+    optional(:start_transaction) => start_transaction_request,
+    optional(:end_session) => end_session_request,
+    optional(:commit_transaction) => commit_transaction_request,
+    optional(:abort_transaction) => abort_transaction_request,
+    optional(:execute_statement) => execute_statement_request,
+    optional(:fetch_page) => fetch_page_request
+  }
 
   @spec send_command(
     request :: send_command_request

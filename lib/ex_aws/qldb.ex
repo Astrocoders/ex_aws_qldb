@@ -1,8 +1,8 @@
 defmodule ExAws.QLDB do
-  @type pagination :: [
-    {:max_results, binary} |
-    {:next_token, binary}
-  ]
+  @type pagination :: %{
+    next_token: binary(),
+    max_results: binary()
+  }
 
   @actions %{
     create_ledger: :post,
@@ -23,22 +23,10 @@ defmodule ExAws.QLDB do
   }
 
   @spec create_ledger(
-    name :: binary
-  ) :: ExAws.Operation.JSON.t
-  @spec create_ledger(
-    name :: binary,
-    permission_mode :: binary
-  ) :: ExAws.Operation.JSON.t
-  @spec create_ledger(
     name :: binary,
     permission_mode :: binary,
-    deletion_protection :: binary
-  ) :: ExAws.Operation.JSON.t
-  @spec create_ledger(
-    name :: binary,
-    permission_mode :: binary,
-    deletion_protection :: binary,
-    tags :: binary
+    deletion_protection :: boolean(),
+    tags :: map()
   ) :: ExAws.Operation.JSON.t
   def create_ledger(name, permission_mode \\ "ALLOW_ALL", deletion_protection \\ false, tags \\ %{}) do
     data = %{
@@ -92,33 +80,33 @@ defmodule ExAws.QLDB do
       "ExclusiveEndTime" => opts.exclusive_end_time,
       "InclusiveStartTime" => opts.inclusive_start_time,
       "RoleArn" => opts.role_arn,
-      "S3ExportConfiguration" => %{ 
+      "S3ExportConfiguration" => %{
          "Bucket" => opts.s3_bucket,
-         "EncryptionConfiguration" => %{ 
+         "EncryptionConfiguration" => %{
             "KmsKeyArn" => opts.s3_kms_key_arn,
             "ObjectEncryptionType" => opts.object_encryption_type
          },
          "Prefix" => opts.prefix
       }
    }
-    
+
     request(:export_journal_to_s3, data, "/ledgers/#{name}/journal-s3-exports")
   end
 
-  @type get_block_opts :: [
-    {:block_address, binary} |
-    {:digest_tip_address, binary}
-  ]
+  @type get_block_opts :: %{
+    required(:block_address) => binary,
+    required(:digest_tip_address) => binary
+  }
   @spec get_block(
     name :: binary,
     opts :: get_block_opts
   ) :: ExAws.Operation.JSON.t
   def get_block(name, opts) do
     data = %{
-      "BlockAddress" => %{ 
+      "BlockAddress" => %{
          "IonText" => opts.block_address
       },
-      "DigestTipAddress" => %{ 
+      "DigestTipAddress" => %{
          "IonText" => opts.digest_tip_address
       }
    }
@@ -133,21 +121,21 @@ defmodule ExAws.QLDB do
     request(:get_digest, %{}, "/ledgers/#{name}/digest")
   end
 
-  @type get_revision_opts :: [
-    {:block_address, binary} |
-    {:digest_tip_address, binary} |
-    {:document_id, binary}
-  ]
+  @type get_revision_opts :: %{
+    required(:block_address) => binary,
+    required(:digest_tip_address) => binary,
+    required(:document_id) => binary
+  }
   @spec get_revision(
     name :: binary,
-    opts :: get_block_opts
+    opts :: get_revision_opts
   ) :: ExAws.Operation.JSON.t
   def get_revision(name, opts) do
     data = %{
-      "BlockAddress" => %{ 
+      "BlockAddress" => %{
          "IonText" => opts.block_address
       },
-      "DigestTipAddress" => %{ 
+      "DigestTipAddress" => %{
          "IonText" => opts.digest_tip_address
       },
       "DocumentId" => opts.document_id
@@ -214,7 +202,7 @@ defmodule ExAws.QLDB do
 
   @spec untag_resource(
     resource_arn :: binary,
-    tag_keys :: binary
+    tag_keys :: map()
   ) :: ExAws.Operation.JSON.t
   def untag_resource(resource_arn, tag_keys) do
     params = %{
@@ -248,4 +236,3 @@ defmodule ExAws.QLDB do
     })
   end
 end
-

@@ -9,11 +9,8 @@ defmodule ExAws.IonHash do
 
   defp call_python(module, function, args) do
     pid = default_instance()
-
     return = ExAws.ExPython.call_python(pid, module, function, args)
-
     ExAws.ExPython.stop(pid)
-
     return
   end
 
