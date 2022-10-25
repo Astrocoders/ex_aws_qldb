@@ -22,7 +22,7 @@ defmodule ExAws.QLDB.MixProject do
   defp deps do
     [
       {:ex_aws, "~> 2.4"},
-      {:jason, "~> 1.1"},
+      {:jason, "~> 1.4"},
       {:hackney, "~> 1.9"},
       {:erlport, "~> 0.9"}
     ]
